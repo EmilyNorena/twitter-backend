@@ -14,6 +14,9 @@ public class Post {
     @Column(length = 140)
     private String body;
     private LocalDateTime date;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stream_id")
+    private Stream stream;
 }

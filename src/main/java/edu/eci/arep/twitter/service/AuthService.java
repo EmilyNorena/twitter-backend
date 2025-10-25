@@ -3,17 +3,26 @@ package edu.eci.arep.twitter.service;
 import edu.eci.arep.twitter.model.User;
 import edu.eci.arep.twitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
+
     @Autowired
     private UserRepository repo;
-    @Autowired private PasswordEncoder encoder;
+    
+    public Optional<User> findByEmail(String email) {
+        return repo.findByEmail(email);
+    }
 
-    public boolean validateCredentials(String username, String password) {
-        User user = repo.findByUsername(username).orElse(null);
-        return user != null && encoder.matches(password, user.getPassword());
+    public User createUserIfNotExists(String email, String name) {
+        return repo.findByEmail(email).orElseGet(() -> {
+            User user = new User();
+            user.setEmail(email);
+            user.setName(name);
+            return repo.save(user);
+        });
     }
 }
