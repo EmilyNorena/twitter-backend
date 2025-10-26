@@ -20,11 +20,17 @@ public class UserService {
     }
 
     public User createUserIfNotExists(String email, String name) {
-        return repo.findByEmail(email).orElseGet(() -> {
-            User user = new User();
-            user.setEmail(email);
+        return repo.findByEmail(email).map(user -> {
+        if (!name.equals(user.getName())) {
             user.setName(name);
             return repo.save(user);
-        });
+        }
+        return user;
+    }).orElseGet(() -> {
+        User user = new User();
+        user.setEmail(email);
+        user.setName(name);
+        return repo.save(user);
+    });
     }
 }

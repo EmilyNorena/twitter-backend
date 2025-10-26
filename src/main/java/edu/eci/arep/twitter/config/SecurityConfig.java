@@ -18,7 +18,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 public class SecurityConfig {
 
     private static final String COGNITO_REGION = "us-east-1";      
-    private static final String USER_POOL_ID = "us-east-1_rX17j92oo";    
+    private static final String USER_POOL_ID = "us-east-1_4PfkJRMhW";    
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -44,8 +44,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*")); 
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); //CAMBIAR EN DESPLIEGUE
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
