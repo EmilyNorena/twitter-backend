@@ -14,4 +14,5 @@ public class Stream {
     private String name;
     @OneToMany(mappedBy = "stream", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
+
 }
